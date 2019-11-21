@@ -15,6 +15,11 @@
             name="toggleAll"
     />
     <ul class="todo-list">
+      <app-todo-item [item]="item" *ngFor="let item of items"
+
+      >
+
+      </app-todo-item>
     </ul>
   </section>
   <footer class="footer">
