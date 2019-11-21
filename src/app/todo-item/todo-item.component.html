@@ -2,11 +2,27 @@
   <input    class = "toggle"
             type  = "checkbox"
             name  = "done"
+            [ngModel]  ="isDone"
+            (ngModelChange)="eventIsDone()"
   />
   <label    class="texte"
+            (dblclick)="editLabel(item.label)"
+            *ngIf="show == false"
+            [ngClass]="{'completed' : isDone}"
   >{{item.label}}</label>
-  <button class="destroy" ></button>
+  <button class="destroy" (click)="eventDestroy(item)"></button>
 </div>
+
+<form *ngIf="show == true"  (submit)="eventEditLabel(label.value)">
+
+  <input #label
+         class="edit"
+         name="label"
+         [ngModel]="item.label"
+         (blur)="doneEdit(label.value)"
+         autofocus
+  />
+</form>
 
 
 

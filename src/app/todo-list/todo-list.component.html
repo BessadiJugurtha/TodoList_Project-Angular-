@@ -15,8 +15,15 @@
             name="toggleAll"
     />
     <ul class="todo-list">
-      <li  *ngFor="let item of items">
-      <app-todo-item [item]="item"
+      <li  *ngFor="let item of items"
+           [ngClass]="{'editing' : itemCompo.show }"
+      >
+      <app-todo-item #itemCompo [item]="item"
+                     [isDone]="item.isDone"
+                     (itemDone)="itemDone(item, $event)"
+                     (removeItem)="removeItem($event)"
+                     (itemLabel)="itemLabel(item, $event)"
+
       >
       </app-todo-item>
       </li>
