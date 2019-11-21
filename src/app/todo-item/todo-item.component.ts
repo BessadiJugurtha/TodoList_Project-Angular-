@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {TodoItemData} from '../dataTypes/TodoItemData';
 
 
 @Component({
