@@ -16,7 +16,7 @@
             (click)="toggleAllDone()"
     />
     <ul class="todo-list">
-      <li  *ngFor="let item of items"
+      <li @fade *ngFor="let item of items"
            [ngClass]="{'editing' : itemCompo.show }"
       >
       <app-todo-item #itemCompo [item]="item"

@@ -2,10 +2,11 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {TodoItemData} from '../dataTypes/TodoItemData';
 
 
+
 @Component({
   selector: 'app-todo-item',
   templateUrl: './todo-item.component.html',
-  styleUrls: ['./todo-item.component.css']
+  styleUrls: ['./todo-item.component.css'],
 })
 export class TodoItemComponent implements OnInit {
 
@@ -40,9 +41,7 @@ export class TodoItemComponent implements OnInit {
 
   editLabel(label : string){
     this.beforEdit = label;
-    console.log(this.show);
     this.show = true;
-    console.log(this.show);
   }
 
   doneEdit(item : string) : void{

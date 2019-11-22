@@ -1,13 +1,33 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {TodoListData} from '../dataTypes/TodoListData';
 import {TodoItemData} from '../dataTypes/TodoItemData';
 import {TodoService} from '../todo.service';
-
+import {animate, style, transition, trigger, state} from '@angular/animations';
 
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
-  styleUrls: ['./todo-list.component.css']
+  styleUrls: ['./todo-list.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('fade', [
+      transition(':enter',[
+        style({opacity: 0, transform:'scale(2,9)'}),
+        animate(300)
+      ]),
+      transition(':leave',[
+        animate(300, style({opacity: 0, transform:
+            'scale(0.5,1)'}))
+      ]),
+    ])
+   /* trigger('fade', [
+      state('void', style({
+        opacity: 0, transform: 'scale(2,4)',
+      })),
+      transition('void <=> *', animate(300)),
+    ]),*/
+  ]
+
 })
 export class TodoListComponent implements OnInit {
 
