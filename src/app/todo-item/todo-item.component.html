@@ -3,14 +3,14 @@
             type  = "checkbox"
             name  = "done"
             [ngModel]  ="isDone"
-            (ngModelChange)="eventIsDone()"
+            (ngModelChange)="eventIsDone(); eventRemaining()"
   />
   <label    class="texte"
             (dblclick)="editLabel(item.label)"
             *ngIf="show == false"
             [ngClass]="{'completed' : isDone}"
   >{{item.label}}</label>
-  <button class="destroy" (click)="eventDestroy(item)"></button>
+  <button class="destroy" (click)="eventDestroy(item); eventRemaining()"></button>
 </div>
 
 <form *ngIf="show == true"  (submit)="eventEditLabel(label.value)">

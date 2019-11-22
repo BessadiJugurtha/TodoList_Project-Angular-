@@ -18,6 +18,7 @@ export class TodoItemComponent implements OnInit {
   @Output() itemDone = new EventEmitter();
   @Output() removeItem = new EventEmitter();
   @Output() itemLabel = new EventEmitter();
+  @Output() remainingStain = new EventEmitter();
   constructor() { }
 
   ngOnInit() {}
@@ -50,6 +51,10 @@ export class TodoItemComponent implements OnInit {
     }
     this.show = false;
     this.eventEditLabel(item);
+  }
+
+  eventRemaining(){
+    this.remainingStain.emit();
   }
 
 }

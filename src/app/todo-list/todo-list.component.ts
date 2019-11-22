@@ -13,6 +13,8 @@ export class TodoListComponent implements OnInit {
 
   titre: string;
   @Input() private data: TodoListData;
+  private remaining : number = 0;
+
   constructor(private todoService: TodoService) {
     todoService.getTodoListDataObserver().subscribe( tdl => this.data = tdl );
     this.titre = this.data.label;
@@ -46,5 +48,56 @@ export class TodoListComponent implements OnInit {
 
   removeItem(item: TodoItemData) {
     this.todoService.removeItems(item);
+  }
+
+  checkedOrShoot() : boolean{
+    let sizeArray = this.items.filter(item=>!item.isDone).length;
+    return sizeArray != 0 ? false: true;
+  }
+
+  remainingStain() : void{
+    this.remaining = this.items.filter(item=>!item.isDone).length;
+
+  }
+
+  updateRemaining() : void{
+    this.remaining = this.remaining +1;
+  }
+
+  toggleAllDone(){
+   if(this.checkedOrShoot() == false) {
+     this.items.forEach(item => {
+       if (item.isDone == false)
+         item.isDone = true;
+       this.remainingStain()
+     })
+   }
+   else{
+     this.items.forEach(item => {
+       if (item.isDone == true)
+         item.isDone = false;
+       this.remainingStain()
+     })
+   }
+  }
+
+  filter(className) : void{
+    if(className=="filterAll"){
+      this.items;
+    } else if(className=="filterActives"){
+      this.data.items = this.items.filter(item=>!item.isDone);
+      this.remainingStain();
+    }else{
+      this.data.items = this.items.filter(item=>item.isDone);
+      this.remainingStain();
+    }
+  }
+
+  displayButtonSup() : boolean{
+    return this.items.filter(item=>item.isDone).length >0
+  }
+
+  deleteChecked() : void {
+    this.data.items =this.items.filter(item=>!item.isDone);
   }
 }
