@@ -9,7 +9,7 @@
               autofocus />
     </form>
   </header>
-  <section *ngIf="items.length>0" class="main">
+  <section  class="main">
     <input  class="toggle-all"
             type="checkbox"
             name="toggleAll"
@@ -30,7 +30,7 @@
       </li>
     </ul>
   </section>
-  <footer *ngIf="items.length>0" class="footer">
+  <footer  class="footer">
     <span class="todo-count"><strong *ngIf="remaining>0">{{remaining}}</strong> restantes</span>
     <ul class="filters">
       <li>

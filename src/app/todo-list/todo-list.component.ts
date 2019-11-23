@@ -103,12 +103,12 @@ export class TodoListComponent implements OnInit {
 
   filter(className) : void{
     if(className=="filterAll"){
-      this.items;
+      this.data.items = this.todoService.get();
     } else if(className=="filterActives"){
-      this.data.items = this.items.filter(item=>!item.isDone);
+      this.data.items = this.todoService.get().filter(item=>!item.isDone);
       this.remainingStain();
     }else{
-      this.data.items = this.items.filter(item=>item.isDone);
+      this.data.items = this.todoService.get().filter(item=>item.isDone);
       this.remainingStain();
     }
   }
@@ -117,7 +117,9 @@ export class TodoListComponent implements OnInit {
     return this.items.filter(item=>item.isDone).length >0
   }
 
+
   deleteChecked() : void {
-    this.data.items =this.items.filter(item=>!item.isDone);
+   let inter = this.items.filter(item=>item.isDone);
+   inter.forEach(item=>this.todoService.removeItems(item));
   }
 }
