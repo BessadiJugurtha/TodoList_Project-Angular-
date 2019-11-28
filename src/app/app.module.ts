@@ -9,6 +9,10 @@ import { TodoItemComponent } from './todo-item/todo-item.component';
 import {TodoService} from './todo.service';
 import {FormsModule} from '@angular/forms';
 
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+
+
 
 
 @NgModule({
@@ -20,7 +24,8 @@ import {FormsModule} from '@angular/forms';
   imports: [
     BrowserModule, FormsModule,
     AutofocusModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [TodoService],
   bootstrap: [AppComponent]

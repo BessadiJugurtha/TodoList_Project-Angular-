@@ -33,11 +33,15 @@ export class TodoListComponent implements OnInit {
 
   titre: string;
   @Input() private data: TodoListData;
-  private remaining : number = 0;
-
+  private remaining : number =0 ;
   constructor(private todoService: TodoService) {
     todoService.getTodoListDataObserver().subscribe( tdl => this.data = tdl );
     this.titre = this.data.label;
+
+    if(localStorage.getItem('TodoList'))
+      this.remainingStain();
+    else
+      this.remaining = 0;
   }
 
   ngOnInit() {
@@ -64,20 +68,24 @@ export class TodoListComponent implements OnInit {
       label,
       isDone: false
     } );
+
   }
 
   removeItem(item: TodoItemData) {
     this.todoService.removeItems(item);
+
   }
 
-  checkedOrShoot() : boolean{
-    let sizeArray = this.items.filter(item=>!item.isDone).length;
-    return sizeArray != 0 ? false: true;
+  checkedOrShoot(): boolean {
+    const sizeArray = this.items.filter(item => !item.isDone).length;
+    return sizeArray != 0 ? false : true;
   }
 
-  remainingStain() : void{
-    this.remaining = this.items.filter(item=>!item.isDone).length;
-
+  remainingStain(): void {
+    const savedTodo = JSON.parse(localStorage.getItem('TodoList'));
+    if(localStorage.getItem('TodoList'))
+    this.remaining = savedTodo.filter(item=>!item.isDone).length;
+    else this.remaining =0;
   }
 
   updateRemaining() : void{
@@ -100,16 +108,18 @@ export class TodoListComponent implements OnInit {
      })
    }
   }
-
+    /*filtre*/
   filter(className) : void{
     if(className=="filterAll"){
       this.data.items = this.todoService.get();
     } else if(className=="filterActives"){
       this.data.items = this.todoService.get().filter(item=>!item.isDone);
-      this.remainingStain();
+      this.todoService.undo();
+      this.remaining = this.data.items.filter(item=>!item.isDone).length;
     }else{
       this.data.items = this.todoService.get().filter(item=>item.isDone);
-      this.remainingStain();
+      this.todoService.undo();
+      this.remaining = this.data.items.filter(item=>!item.isDone).length;
     }
   }
 
@@ -121,5 +131,29 @@ export class TodoListComponent implements OnInit {
   deleteChecked() : void {
    let inter = this.items.filter(item=>item.isDone);
    inter.forEach(item=>this.todoService.removeItems(item));
+   this.remainingStain();
   }
+    /*Undo Redo*/
+  undo(){
+    this.todoService.updateUndo();
+    this.remainingStain();
+  }
+
+  redo(){
+    this.todoService.updateRedo();
+    this.remainingStain();
+  }
+
+  sizeArrayUndo(){
+    if(this.todoService.getArrayUndo())
+    return this.todoService.getArrayUndo().length>0;
+    else  return false;
+  }
+
+  sizeArrayRedo(){
+    if(this.todoService.getArrayRedo())
+    return this.todoService.getArrayRedo().length>0;
+    else return false;
+  }
+
 }

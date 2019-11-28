@@ -31,7 +31,7 @@
     </ul>
   </section>
   <footer  class="footer">
-    <span class="todo-count"><strong *ngIf="remaining>0">{{remaining}}</strong> restantes</span>
+    <span class="todo-count"><strong *ngIf="remaining>0" >{{remaining}}</strong> restantes</span>
     <ul class="filters">
       <li>
         <a #all class="filterAll" (click)="filter(all.className)">Tous</a>
@@ -42,9 +42,18 @@
       <li>
         <a #completed class="filterCompleted" (click)="filter(completed.className)">Complétés</a>
       </li>
+      <li>
+        <a *ngIf="sizeArrayUndo()" (click)="undo()">Undo</a>
+      </li>
+      <li>
+        <a *ngIf="sizeArrayRedo()" (click)="redo()">Redo</a>
+      </li>
+      <li>
+        <button *ngIf="displayButtonSup()" class="clear-completed" (click)="deleteChecked()">Supprimer cochées</button>
+      </li>
     </ul>
 
-    <button *ngIf="displayButtonSup()" class="clear-completed" (click)="deleteChecked()">Supprimer cochées</button>
+
   </footer>
 </section>
 <hr/>
