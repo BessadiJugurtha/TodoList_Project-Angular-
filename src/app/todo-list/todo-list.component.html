@@ -30,13 +30,13 @@
       </li>
     </ul>
   </section>
-  <footer  class="footer">
+  <footer  class="footer ">
     <span class="todo-count"><strong *ngIf="remaining>0" >{{remaining}}</strong> restantes</span>
     <ul class="filters">
       <li>
         <a #all class="filterAll" (click)="filter(all.className)">Tous</a>
       </li>
-      <li>
+      <li >
         <a #actives class="filterActives"  (click)="filter(actives.className)">Actifs</a>
       </li>
       <li>
@@ -49,16 +49,19 @@
         <a *ngIf="sizeArrayRedo()" (click)="redo()">Redo</a>
       </li>
       <li>
-        <button *ngIf="displayButtonSup()" class="clear-completed" (click)="deleteChecked()">Supprimer cochées</button>
+        <a *ngIf="sizeArrayRedo() || sizeArrayUndo() || items.length>0" (click)="destroyStorage()">Effacer</a>
+      </li>
+      <li>
+        <button  *ngIf="displayButtonSup()" class="clear-completed" (click)="deleteChecked()">Supprimer cochées</button>
       </li>
     </ul>
-
-
   </footer>
 </section>
+
 <hr/>
 
-<!-- Version debug de la liste V1 -->
+<!--
+&lt;!&ndash; Version debug de la liste V1 &ndash;&gt;
 <h2>Debug V1</h2>
 <ul>
   <li *ngFor="let item of items">
@@ -66,7 +69,7 @@
   </li>
 </ul>
 
-<!-- Version debug de la liste V2, si on clique sur la checkbox, le json n'est pas modifié... -->
+&lt;!&ndash; Version debug de la liste V2, si on clique sur la checkbox, le json n'est pas modifié... &ndash;&gt;
 <h2>Debug V2</h2>
 <ul>
   <li *ngFor="let item of items">
@@ -76,7 +79,7 @@
   </li>
 </ul>
 
-<!-- Version debug de la liste V3, json OK -->
+&lt;!&ndash; Version debug de la liste V3, json OK &ndash;&gt;
 <h2>Debug V3</h2>
 <ul>
   <li *ngFor="let item of items">
@@ -86,7 +89,7 @@
   </li>
 </ul>
 
-<!-- Version debug de la liste V4, edition du texte -->
+&lt;!&ndash; Version debug de la liste V4, edition du texte &ndash;&gt;
 <h2>Debug V4</h2>
 <ul>
   <li *ngFor="let item of items">
@@ -98,7 +101,7 @@
   </li>
 </ul>
 
-<!-- Version debug de la liste V5, suppression de l'item -->
+&lt;!&ndash; Version debug de la liste V5, suppression de l'item &ndash;&gt;
 <h2>Debug V5</h2>
 <ul>
   <li *ngFor="let item of items">
@@ -110,4 +113,5 @@
     <pre>{{item | json}}</pre>
   </li>
 </ul>
+-->
 

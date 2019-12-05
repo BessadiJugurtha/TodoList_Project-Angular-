@@ -8,9 +8,9 @@ export class TodoService {
 
   private todoListSubject = new BehaviorSubject<TodoListData>( {label: 'TodoList', items: this.get()} );
   private todoArrayUndo : [TodoItemData[]];
-  private todoArrayRedo : [TodoItemData[]];
+  private _todoArrayRedo : [TodoItemData[]];
 
-  /*  Constructeur*/
+  /*  Constructor*/
   constructor() {
     const arrayUndo = localStorage.getItem('ArrayUndo');
     const arrayRedo = localStorage.getItem('ArrayRedo');
@@ -18,10 +18,10 @@ export class TodoService {
     else {this.todoArrayUndo = [[]];
     this.todoArrayUndo.splice(0,1);
     }
-    if(arrayRedo) this.todoArrayRedo = JSON.parse(arrayRedo);
+    if(arrayRedo) this._todoArrayRedo = JSON.parse(arrayRedo);
     else {
-      this.todoArrayRedo = [[]];
-      this.todoArrayRedo.splice(0,1);
+      this._todoArrayRedo = [[]];
+      this._todoArrayRedo.splice(0,1);
     }
   }
 
@@ -93,7 +93,7 @@ export class TodoService {
   }
 
   setArrayRedo(){
-    localStorage.setItem('ArrayRedo', JSON.stringify(this.todoArrayRedo));
+    localStorage.setItem('ArrayRedo', JSON.stringify(this._todoArrayRedo));
   }
 
   getArrayUndo() : [TodoItemData[]]{
@@ -107,7 +107,7 @@ export class TodoService {
   updateUndo() : void {
     const tabIn = this.getArrayUndo();
     this.todoListSubject.getValue().items = tabIn[tabIn.length-2];
-    this.todoArrayRedo.unshift(this.todoArrayUndo[this.todoArrayUndo.length-1]);
+    this._todoArrayRedo.unshift(this.todoArrayUndo[this.todoArrayUndo.length-1]);
     this.todoArrayUndo.splice(this.todoArrayUndo.length-1,1);
     this.setArrayUndo();
     this.setArrayRedo();
@@ -120,8 +120,8 @@ export class TodoService {
   updateRedo(){
     let tabIn = this.getArrayRedo();
     this.todoListSubject.getValue().items = tabIn[0];
-    this.todoArrayUndo.push(this.todoArrayRedo[0]);
-    this.todoArrayRedo.splice(0,1);
+    this.todoArrayUndo.push(this._todoArrayRedo[0]);
+    this._todoArrayRedo.splice(0,1);
     this.setArrayUndo();
     this.setArrayRedo();
     localStorage.setItem('TodoList',JSON.stringify(tabIn[0]));

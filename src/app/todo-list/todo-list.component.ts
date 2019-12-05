@@ -110,13 +110,14 @@ export class TodoListComponent implements OnInit {
   }
     /*filtre*/
   filter(className) : void{
-    if(className=="filterAll"){
+    if(className=="filterAll" && this.data.items.length>0){
       this.data.items = this.todoService.get();
-    } else if(className=="filterActives"){
+      this.todoService.undo();
+    } else if(className=="filterActives" && this.data.items.length>0){
       this.data.items = this.todoService.get().filter(item=>!item.isDone);
       this.todoService.undo();
       this.remaining = this.data.items.filter(item=>!item.isDone).length;
-    }else{
+    }else if(className=="filterCompleted" && this.data.items.length>0){
       this.data.items = this.todoService.get().filter(item=>item.isDone);
       this.todoService.undo();
       this.remaining = this.data.items.filter(item=>!item.isDone).length;
@@ -156,4 +157,12 @@ export class TodoListComponent implements OnInit {
     else return false;
   }
 
+  /*Effacer tous */
+
+  destroyStorage(){
+    this.data.items.forEach(item => this.removeItem(item));
+    localStorage.clear();
+    this.remainingStain();
+    window.location.reload();
+  }
 }

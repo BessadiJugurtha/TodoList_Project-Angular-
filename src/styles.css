@@ -275,6 +275,7 @@ label[for='toggle-all'] {
 .todo-count {
   float: left;
   text-align: left;
+  margin-right: 1px;
 }
 
 .todo-count strong {
@@ -288,6 +289,7 @@ label[for='toggle-all'] {
   position: absolute;
   right: 0;
   left: 0;
+
 }
 
 .filters li {
@@ -297,7 +299,7 @@ label[for='toggle-all'] {
 .filters li a {
   color: inherit;
   margin: 3px;
-  padding: 3px 7px;
+  padding: 0px 1px;
   text-decoration: none;
   border: 1px solid transparent;
   border-radius: 3px;
