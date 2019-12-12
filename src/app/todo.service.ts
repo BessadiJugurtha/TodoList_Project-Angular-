@@ -7,6 +7,8 @@ import {TodoItemData} from './dataTypes/TodoItemData';
 export class TodoService {
 
   private todoListSubject = new BehaviorSubject<TodoListData>( {label: 'TodoList', items: this.get()} );
+
+  /*local Storage*/
   private todoArrayUndo : [TodoItemData[]];
   private _todoArrayRedo : [TodoItemData[]];
 
@@ -14,16 +16,23 @@ export class TodoService {
   constructor() {
     const arrayUndo = localStorage.getItem('ArrayUndo');
     const arrayRedo = localStorage.getItem('ArrayRedo');
-    if(arrayUndo) this.todoArrayUndo = JSON.parse(arrayUndo);
-    else {this.todoArrayUndo = [[]];
-    this.todoArrayUndo.splice(0,1);
-    }
-    if(arrayRedo) this._todoArrayRedo = JSON.parse(arrayRedo);
-    else {
-      this._todoArrayRedo = [[]];
-      this._todoArrayRedo.splice(0,1);
-    }
+        /*initialisation de todoArrayUndo et todoArrayRedo*/
+      if(arrayUndo)
+        this.todoArrayUndo = JSON.parse(arrayUndo)
+          else {this.todoArrayUndo = [[]];
+               /*cette ligne gére un problème*/
+                this.todoArrayUndo.splice(0,1);
+          }
+
+      if(arrayRedo)
+        this._todoArrayRedo = JSON.parse(arrayRedo);
+          else {
+            this._todoArrayRedo = [[]];
+            /*cette ligne gére le problème num 01(plus de détails dans le rapport*/
+            this._todoArrayRedo.splice(0,1);
+          }
   }
+
 
   getTodoListDataObserver(): Observable<TodoListData> {
     return this.todoListSubject.asObservable();
@@ -71,6 +80,7 @@ export class TodoService {
     this.undo();
 
   }
+
   /*LocalStorage*/
   saveAll() {
    const tdl = this.todoListSubject.getValue();
@@ -83,11 +93,14 @@ export class TodoService {
    else return [];
   }
 
+
   /*Undo Redo*/
   undo() : void{
       this.todoArrayUndo.push(this.todoListSubject.getValue().items);
       this.setArrayUndo();
   }
+
+  /*setter ArrayUndo et ArrayRedo*/
   setArrayUndo(){
     localStorage.setItem('ArrayUndo', JSON.stringify(this.todoArrayUndo));
   }
@@ -96,6 +109,7 @@ export class TodoService {
     localStorage.setItem('ArrayRedo', JSON.stringify(this._todoArrayRedo));
   }
 
+  /*getter ArrayUndo et ArrayRedo*/
   getArrayUndo() : [TodoItemData[]]{
     return JSON.parse(localStorage.getItem('ArrayUndo'));
   }
@@ -104,6 +118,7 @@ export class TodoService {
     return JSON.parse(localStorage.getItem('ArrayRedo'));
   }
 
+  /*gérer les modifications sur les local storage de Undo et Redo*/
   updateUndo() : void {
     const tabIn = this.getArrayUndo();
     this.todoListSubject.getValue().items = tabIn[tabIn.length-2];

@@ -1,117 +1,70 @@
 <section class="todoapp">
-  <header class="header">
-    <h1>{{label}}</h1>
-    <form (submit)="appendItem(newTodoInput.value); newTodoInput.value = ''; updateRemaining()">
-      <input  #newTodoInput
-              name        = "newTodoInput"
-              class       = "new-todo"
-              placeholder = "Que faire?"
-              autofocus />
-    </form>
-  </header>
-  <section  class="main">
-    <input  class="toggle-all"
-            type="checkbox"
-            name="toggleAll"
-            (click)="toggleAllDone()"
-    />
-    <ul class="todo-list">
-      <li @fade *ngFor="let item of items"
-           [ngClass]="{'editing' : itemCompo.show }"
-      >
-      <app-todo-item #itemCompo [item]="item"
-                     [isDone]="item.isDone"
-                     (itemDone)="itemDone(item, $event)"
-                     (removeItem)="removeItem($event)"
-                     (itemLabel)="itemLabel(item, $event)"
-                     (remainingStain)="remainingStain()"
-      >
-      </app-todo-item>
-      </li>
-    </ul>
-  </section>
-  <footer  class="footer ">
-    <span class="todo-count"><strong *ngIf="remaining>0" >{{remaining}}</strong> restantes</span>
-    <ul class="filters">
-      <li>
-        <a #all class="filterAll" (click)="filter(all.className)">Tous</a>
-      </li>
-      <li >
-        <a #actives class="filterActives"  (click)="filter(actives.className)">Actifs</a>
-      </li>
-      <li>
-        <a #completed class="filterCompleted" (click)="filter(completed.className)">Complétés</a>
-      </li>
-      <li>
-        <a *ngIf="sizeArrayUndo()" (click)="undo()">Undo</a>
-      </li>
-      <li>
-        <a *ngIf="sizeArrayRedo()" (click)="redo()">Redo</a>
-      </li>
-      <li>
-        <a *ngIf="sizeArrayRedo() || sizeArrayUndo() || items.length>0" (click)="destroyStorage()">Effacer</a>
-      </li>
-      <li>
-        <button  *ngIf="displayButtonSup()" class="clear-completed" (click)="deleteChecked()">Supprimer cochées</button>
-      </li>
-    </ul>
-  </footer>
+   <!--Header-->
+    <header class="header">
+      <h1>{{label}}</h1>
+      <form (submit)="appendItem(newTodoInput.value); newTodoInput.value = ''; updateRemaining()">
+        <input  #newTodoInput
+                name        = "newTodoInput"
+                class       = "new-todo"
+                placeholder = "Que faire?"
+                autofocus />
+      </form>
+    </header>
+
+        <!-- main -->
+    <section  class="main">
+      <input  class="toggle-all"
+              type="checkbox"
+              name="toggleAll"
+              (click)="toggleAllDone()"
+      />
+      <ul class="todo-list">
+        <!-- @fade : animation -->
+        <li @fade *ngFor="let item of items"
+             [ngClass]="{'editing' : itemCompo.show }"
+        >
+            <app-todo-item #itemCompo [item]="item"
+                           [isDone]="item.isDone"
+                           (itemDone)="itemDone(item, $event)"
+                           (removeItem)="removeItem($event)"
+                           (itemLabel)="itemLabel(item, $event)"
+                           (remainingStain)="remainingStain()"
+            >
+            </app-todo-item>
+        </li>
+      </ul>
+    </section>
+
+      <!--footer-->
+    <footer  class="footer ">
+      <span class="todo-count"><strong *ngIf="remaining>0" >{{remaining}}</strong> restantes</span>
+      <ul class="filters">
+        <li>
+          <a #all class="filterAll" (click)="filter(all.className)">Tous</a>
+        </li>
+        <li >
+          <a #actives class="filterActives"  (click)="filter(actives.className)">Actifs</a>
+        </li>
+        <li>
+          <a #completed class="filterCompleted" (click)="filter(completed.className)">Complétés</a>
+        </li>
+        <li>
+          <a *ngIf="sizeArrayUndo()" (click)="undo()">Undo</a>
+        </li>
+        <li>
+          <a *ngIf="sizeArrayRedo()" (click)="redo()">Redo</a>
+        </li>
+        <li>
+          <a *ngIf="sizeArrayRedo() || sizeArrayUndo() || items.length>0" (click)="destroyStorage()">Effacer</a>
+        </li>
+        <li>
+          <button  *ngIf="displayButtonSup()" class="clear-completed" (click)="deleteChecked()">Supprimer cochées</button>
+        </li>
+      </ul>
+    </footer>
+
 </section>
 
-<hr/>
 
-<!--
-&lt;!&ndash; Version debug de la liste V1 &ndash;&gt;
-<h2>Debug V1</h2>
-<ul>
-  <li *ngFor="let item of items">
-    {{item | json}}
-  </li>
-</ul>
 
-&lt;!&ndash; Version debug de la liste V2, si on clique sur la checkbox, le json n'est pas modifié... &ndash;&gt;
-<h2>Debug V2</h2>
-<ul>
-  <li *ngFor="let item of items">
-    <input type="checkbox" [ngModel]="item.isDone" />
-    <label>{{item.label}}</label>
-    <pre>{{item | json}}</pre>
-  </li>
-</ul>
-
-&lt;!&ndash; Version debug de la liste V3, json OK &ndash;&gt;
-<h2>Debug V3</h2>
-<ul>
-  <li *ngFor="let item of items">
-    <input type="checkbox" [ngModel]="item.isDone" (ngModelChange)="itemDone(item, $event)" />
-    <label>{{item.label}}</label>
-    <pre>{{item | json}}</pre>
-  </li>
-</ul>
-
-&lt;!&ndash; Version debug de la liste V4, edition du texte &ndash;&gt;
-<h2>Debug V4</h2>
-<ul>
-  <li *ngFor="let item of items">
-    <input type="checkbox" [ngModel]="item.isDone" (ngModelChange)="itemDone(item, $event)" />
-    <form (submit)="itemLabel(item, newLab.value)">
-      <input type="text" name="label" [ngModel]="item.label" #newLab />
-    </form>
-    <pre>{{item | json}}</pre>
-  </li>
-</ul>
-
-&lt;!&ndash; Version debug de la liste V5, suppression de l'item &ndash;&gt;
-<h2>Debug V5</h2>
-<ul>
-  <li *ngFor="let item of items">
-    <input type="checkbox" [ngModel]="item.isDone" (ngModelChange)="itemDone(item, $event)" />
-    <form (submit)="itemLabel(item, newLab.value)">
-      <input type="text" name="label" [ngModel]="item.label" #newLab />
-    </form>
-    <button (click)="removeItem(item)">DELETE</button>
-    <pre>{{item | json}}</pre>
-  </li>
-</ul>
--->
 
