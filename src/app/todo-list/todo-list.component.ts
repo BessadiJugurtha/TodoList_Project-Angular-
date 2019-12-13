@@ -165,10 +165,13 @@ export class TodoListComponent implements OnInit {
   /*Effacer tous */
 
   destroyStorage(){
+    if(this.data.items.length>0){
     this.data.items.forEach(item => this.removeItem(item));
+    }
     localStorage.clear();
     this.remainingStain();
-    /*rafraichir la page après suppression des local storage*/
+    /*rafraichir la page après suppression des local storage,
+     pour régler le problème N° 2(détail dans le rapport)*/
     window.location.reload();
   }
 }

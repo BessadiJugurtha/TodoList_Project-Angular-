@@ -20,7 +20,7 @@ export class TodoService {
       if(arrayUndo)
         this.todoArrayUndo = JSON.parse(arrayUndo)
           else {this.todoArrayUndo = [[]];
-               /*cette ligne gére un problème*/
+               /*cette ligne gére un problème numéro 1(regardez dans le rapport "probleme N° 1")*/
                 this.todoArrayUndo.splice(0,1);
           }
 
@@ -28,7 +28,7 @@ export class TodoService {
         this._todoArrayRedo = JSON.parse(arrayRedo);
           else {
             this._todoArrayRedo = [[]];
-            /*cette ligne gére le problème num 01(plus de détails dans le rapport*/
+            /*cette ligne gére le problème num 01(regardez dans le rapport "probleme N° 1")t*/
             this._todoArrayRedo.splice(0,1);
           }
   }

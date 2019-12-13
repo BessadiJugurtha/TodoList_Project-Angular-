@@ -13,7 +13,8 @@
 
         <!-- main -->
     <section  class="main">
-      <input  class="toggle-all"
+      <input  *ngIf="items.length>0"
+              class="toggle-all"
               type="checkbox"
               name="toggleAll"
               (click)="toggleAllDone()"
