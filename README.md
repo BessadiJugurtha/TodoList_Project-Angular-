@@ -26,7 +26,7 @@ Pour commencer à utiliser cette application il faut suivre ces étapes d'instal
  *  **Animation**
 
 
- # __Listes des fonctionnalités__ 
+ # __détails sur des fonctionnalités__ 
  > Concernant l'application de base (c'est à dire sans les foctionnalités suplimentaire), j'ai préféré travailler avec une  méthode 
  différente de la votre, car j'ai utilisé des evenements pour transférer les données du composant fils (todo-item) vers le composant père 
  (todo-list), et ce dérnier utilise le todoService, autrement dit j'ai pas utilisé le todoService directement depuis le composant todo-item:
